@@ -1,0 +1,5 @@
+[run]
+include = dreamteam/*
+omit = *migrations*, *tests*
+plugins =
+    django_coverage_plugin
