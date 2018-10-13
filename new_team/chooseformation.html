@@ -13,6 +13,7 @@
     }
 
     body {
+        background-color: rgb(244,244,244);
         color: black;
         font-family: 'Ubuntu', sans-serif;
         font-size: 1.2em;
@@ -25,8 +26,9 @@
 
     .tophead {
         text-align: center;
-        font-size: 3em;
-        margin-top: 5%;
+        font-size: 5em;
+        margin-top: 2%;
+        margin-bottom: 5%;
     }
 
     .selection {
@@ -40,7 +42,7 @@
         /* color:black; */
         font-size: 1em;
         text-align: center;
-        border-radius: 100%;
+        /* border-radius: 100%; */
         background-color: rgb(224,224,224);
         opacity: 0.6;
         margin: 2%;
@@ -96,8 +98,6 @@
         text-decoration: none;
         cursor: pointer;
     }
-
-}
 </style>
 
 <script>
@@ -105,7 +105,9 @@
     midfielderList = ['deBruyne', 'Isco', 'Rakitic', 'Pjanic', 'Verraiti']
     defenderList = ['Marcelo', 'Ramos', 'Kurzawa', 'Alves', 'Boateng']
     goalkeeperList = ['Navas', 'Buffon', 'Neuer', 'de Gea', 'ter Stegen']
-    function display(position) {
+    chosen = []
+
+    function display(modal, playericon, position) {
         var playerList;
         if (position == 'forward') playerList = forwardList;
         else if (position == 'midfielder') playerList = midfielderList;
@@ -128,23 +130,35 @@
 
         var i;
         for (i = 0; i < playerList.length; i++) {
+            if (chosen.indexOf(playerList[i]) > -1) continue;
             var player = document.createElement("a");
             player.classList.add("list-group-item");
             player.href = "#";
             player.innerHTML = playerList[i];
+            player.onclick = function (event) {
+                modal.style.display = "none";
+                var currChoice = playericon.innerHTML;
+                playericon.innerHTML = this.innerHTML;
+                chosen.push(this.innerHTML);
+                if (currChoice != 'Select Player') {
+                    var idx = chosen.indexOf(currChoice);
+                    chosen.splice(idx,1);
+                }
+                if (chosen.length == 11) {
+                    var continueButton = document.getElementById("continue");
+                    continueButton.setAttribute("class", "btn btn-success btn-lg");
+                }
+            }
             list.appendChild(player);
         }
     }
 
     function createPlayerIcon (position) {
         var playericon = document.createElement("button");
-        playericon.style.color = "black";
-        playericon.style.backgroundColor = "rgb(224,224,224)";
-        playericon.style.opacity = "0.6";
+        playericon.style.opacity = "0.8";
         playericon.style.margin = "auto";
         playericon.style.width = "max-content";
-        playericon.style.padding = "0.5%";
-        playericon.style.cursor = "pointer";
+        playericon.setAttribute("class", "btn btn-secondary btn-lg");
         playericon.innerHTML = "Select Player";
 
         var modal = document.getElementById('myModal');
@@ -155,7 +169,7 @@
         // When the user clicks on the button, open the modal
         btn.onclick = function() {
             modal.style.display = "block";
-            display(position);
+            display(modal,playericon,position);
         }
         // When the user clicks on <span> (x), close the modal
         span.onclick = function() {
@@ -187,7 +201,24 @@
 
 
         document.getElementById("init-heading").innerHTML = "Choose Your Team";
+        document.getElementById("init-heading").style.marginBottom = "2%";
         document.getElementById("selection").remove();
+
+        var continueButton = document.createElement("button");
+        continueButton.id = "continue";
+        continueButton.type = "button";
+        continueButton.style.position = "absolute";
+        continueButton.style.top = "5%";
+        continueButton.style.right = "5%";
+        continueButton.setAttribute("class","btn btn-success btn-lg disabled");
+        continueButton.innerHTML = "Continue";
+        continueButton.style.paddingLeft = "5%";
+        continueButton.style.paddingRight = "5%";
+        continueButton.onclick = function() {
+            // send the chosen array to the next page
+        }
+        document.body.appendChild(continueButton);
+
         var currTeam = document.createElement("div");
         currTeam.id = "curr";
         currTeam.style.backgroundImage = "url('field.jpg')";
@@ -242,29 +273,15 @@
     <h1 id="init-heading" class="tophead"> Choose a Formation </h1>
 
     <div id="selection" class = "selection">
-        <div class="center" onclick="myscript(343)">
-            <p>3-4-3</p>
-        </div>
-        <div class="center" onclick="myscript(352)">
-            <p>3-5-2</p>
-        </div>
-        <div class="center" onclick="myscript(433)">
-            <p>4-3-3</p>
-        </div>
-        <div class="center" onclick="myscript(442)">
-            <p>4-4-2</p>
-        </div>
-        <div class="center" onclick="myscript(451)">
-            <p>4-5-1</p>
-        </div>
-        <div class="center" onclick="myscript(523)">
-            <p>5-2-3</p>
-        </div>
-        <div class="center" onclick="myscript(532)">
-            <p>5-3-2</p>
-        </div>
-        <div class="center" onclick="myscript(541)">
-            <p>5-4-1</p>
+        <div class="btn-group btn-group-lg" role="group" aria-label="Basic example">
+              <button type="button" class="btn btn-success" onclick="myscript(343)">3-4-3</button>
+              <button type="button" class="btn btn-light" onclick="myscript(352)">3-5-2</button>
+              <button type="button" class="btn btn-success" onclick="myscript(433)">4-3-3</button>
+              <button type="button" class="btn btn-light" onclick="myscript(442)">4-4-2</button>
+              <button type="button" class="btn btn-success" onclick="myscript(451)">4-5-1</button>
+              <button type="button" class="btn btn-light" onclick="myscript(523)">5-2-3</button>
+              <button type="button" class="btn btn-success" onclick="myscript(532)">5-3-2</button>
+              <button type="button" class="btn btn-light" onclick="myscript(541)">5-4-1</button>
         </div>
     </div>
 
