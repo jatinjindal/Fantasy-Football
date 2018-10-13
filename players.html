@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+.dropbtn {
+    background-color: #111;
+    color: white;
+    padding: 16px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #111;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown-content a:hover {background-color: rgb(255,0,0)}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.dropdown:hover .dropbtn {
+    background-color: #111;
+}
+</style>
+
+<style>
+body {
+    font-family: "Lato", sans-serif;
+}
+
+.sidebar {
+    height: 100%;
+    width: 0;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background-color: #111;
+    overflow-x: hidden;
+    transition: 0.5s;
+    padding-top: 60px;
+}
+
+.sidebar a {
+    padding: 8px 8px 8px 32px;
+    text-decoration: none;
+    font-size: 25px;
+    color: #818181;
+    display: block;
+    transition: 0.3s;
+}
+
+.sidebar a:hover {
+    color: #f1f1f1;
+}
+
+.sidebar .closebtn {
+    position: absolute;
+    top: 0;
+    right: 25px;
+    font-size: 36px;
+    margin-left: 50px;
+}
+
+.openbtn {
+    font-size: 20px;
+    cursor: pointer;
+    background-color: #111;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+}
+
+.openbtn:hover {
+    background-color: #444;
+}
+
+#main {
+    transition: margin-left .5s;
+    padding: 16px;
+}
+
+/* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
+@media screen and (max-height: 450px) {
+    .sidebar {padding-top: 15px;}
+    .sidebar a {font-size: 18px;}
+}
+</style>
+
+<style>
+body {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.mobile-container {
+  max-width: 620px;
+  background-color: rgb(255,255,255);
+  height: 500px;
+  color: white;
+  border-radius: 10px;
+}
+
+.topnav {
+  overflow: hidden;
+  background-color: #333;
+  position: relative;
+}
+
+.topnav #myLinks {
+  display: none;
+}
+
+.topnav a {
+  color: white;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 17px;
+  display: block;
+}
+
+.topnav a.icon {
+  background: black;
+  display: block;
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+
+</style>
+
+<style>
+body {font-family: Arial, Helvetica, sans-serif;}
+
+/* The Modal (background) */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    padding-top: 100px; /* Location of the box */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* Modal Content */
+.modal-content {
+    position: relative;
+    background-color: #fefefe;
+    margin: auto;
+    padding: 0;
+    border: 1px solid #888;
+    width: 80%;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+    -webkit-animation-name: animatetop;
+    -webkit-animation-duration: 0.4s;
+    animation-name: animatetop;
+    animation-duration: 0.4s
+}
+
+/* Add Animation */
+@-webkit-keyframes animatetop {
+    from {top:-300px; opacity:0} 
+    to {top:0; opacity:1}
+}
+
+@keyframes animatetop {
+    from {top:-300px; opacity:0}
+    to {top:0; opacity:1}
+}
+
+/* The Close Button */
+.close {
+    color: white;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.modal-header {
+    padding: 2px 16px;
+    background-color: #5cb85c;
+    color: white;
+}
+
+.modal-body {padding: 2px 16px;}
+
+.modal-footer {
+    padding: 2px 16px;
+    background-color: #5cb85c;
+    color: white;
+}
+</style>
+
+
+
+</head>
+
+
+
+<body>
+
+
+
+
+
+
+
+  <button id="myBtn"> Open Modal </button> 
+                  <div id="myModal" class="modal">
+
+              <!-- Modal content -->
+              <div class="modal-content">
+                <div class="modal-header">
+                  <span class="close">&times;</span>
+                  <h2>Modal Header</h2>
+                </div>
+                <div class="modal-body">
+                  <p>Some text in the Modal Body</p>
+                  <p>Some other text...</p>
+                </div>
+                <div class="modal-footer">
+                  <h3>Modal Footer</h3>
+                </div>
+              </div>
+
+            </div>
+
+
+
+
+<!--
+<ul class='list-inline'>
+  <li>Sorting by:
+  <li ng-repeat="c in sort.orders">{{ c }}</li>
+</ul>
+-->
+
+<!-- Simulate a smartphone / tablet -->
+<div class="mobile-container">
+
+<div class="topnav">
+  <a class="active">Custom Filters</a>
+
+
+<!-- Top Navigation Menu -->
+<div class="filterForm">
+  <form class="form-inline" role="form">
+
+<button class="openbtn" onclick="openNav()">☰ Sort By</button>  
+<div class="dropdown">
+  <button class="dropbtn">Player types</button>
+  <div class="dropdown-content">
+    
+  <ul class="list-inline">
+    <li ng-repeat="r in reports"><a href='' ng-click='loadReport(r);'>{{ r.name }}</a></li>
+  </ul>
+
+  </div>
+</div>
+    <div class="form-group">
+    <button ng-click="reset()" class='dropbtn'>Reset Filters</button>
+    <button ng-click="clearPins()" class='dropbtn'>Removed Pinned Players</button>
+    </div>
+  </form>
+</div>
+
+
+  <div ng-hide="players" class='loading text-center'>
+
+
+
+
+
+  </div>
+  <div id="myLinks">
+    <div class="filterForm">
+    <a <form class="form-inline" role="form">
+   <div class="form-group">
+      <label>Last Name:</label>
+      <input type="text" id="name" ng-model="search.web_name" placeholder="" class="form-control" />
+    </div>
+    <div class="form-group">
+      <label>Team:</label>
+      <select ng-model="search.team" ng-options="t.name for t in teams track by t.short_name" class="form-control">
+        <option value="">ALL</option>
+      </select>
+    </div>
+    <br>
+    <br>
+    <div class="form-group">
+      <label title="Leave blank to see all positions">Position:</label>
+      <select ng-model="search.position" class="form-control">
+        <option>ALL</option>
+        <option>FWD</option>
+        <option>MID</option>
+        <option>DEF</option>
+        <option>GK</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label title="Only show the players who have played at least this many minutes">Min minutes:</label>
+      <input type="text" id="minutes" ng-model="search.minMinutes" placeholder="0" style='width:50px;' class="form-control" />
+    </div>
+    </form>
+  </div></a>
+  </div>
+  
+  <a href="javascript:void(0);" class="icon" onclick="myFunction()">
+    <i class="fa fa-bars"></i>
+  </a>
+
+      <div style="height:600px;width:620px;border:1px solid #ccc;font:16px/26px Georgia, Garamond, Serif;overflow:auto;">
+
+      <table ng-show="players" >
+      <thead>
+        <tr>
+          <th ng-class="highlight('pinned')" >pin</th>
+          <th ng-class="highlight('web_name')"><a href='' ng-click="sortByColumn('web_name');" >Name</a></th>
+          <th ng-class="highlight('team.short_name')"><a href='' ng-click="sortByColumn('team.short_name');" >Team</a></th>
+          <th ng-class="highlight('position')"><a href='' ng-click="sortByColumn('position');" >Pos</a></th>
+         <th ng-class="highlight('now_cost')"><a href='' ng-click="sortByColumn('-now_cost');" >Cost</a></th>
+           <th><i class="fa fa-youtube fa-2x" title='youtube highlights'></i></th>
+        </tr>
+      </thead>
+      <tbody bgcolor = rgb(0,0,255)>
+        <tr bgcolor = rgb(0,0,255) ng-repeat="p in players | filter:searchFilter | orderBy:sort.orders">
+          <td bgcolor = rgb(0,0,255)>
+            <input type="checkbox" ng-model="p.pinned" title='pin {{ p.id }}' />
+          </td>
+          <td bgcolor = rgb(0,0,255)>
+            <span title="{{ p.first_name }} {{ p.second_name }}">{{ p.web_name }}</span>
+          </td>
+          <td bgcolor = rgb(0,0,255) class='center'>{{ p.team.short_name }}</td>
+          <td bgcolor = rgb(0,0,255) class='center'>{{ p.posn }}</td>
+          <td bgcolor = rgb(0,0,255) class="right">{{ p.now_cost / 10 | number:1 }}</td>
+          <td bgcolor = rgb(0,0,255)>
+            <a href="https://www.youtube.com/results?search_query={{ p.web_name }}+{{ p.team.name }}" target="_blank" title='Search for youtube highlights'>
+              <i class="fa fa-youtube-play fa-2x"></i>
+            </a>
+          </td>
+       
+        </tr>
+      </tbody>
+      </table>
+
+      </div>
+
+</div>
+</div>
+
+ 
+
+
+<script>
+// Get the modal
+var modal = document.getElementById('myModal');
+
+// Get the button that opens the modal
+var btn = document.getElementById("myBtn");
+
+// Get the <span> element that closes the modal
+var span = document.getElementsByClassName("close")[0];
+
+// When the user clicks the button, open the modal 
+btn.onclick = function() {
+    modal.style.display = "block";
+}
+
+// When the user clicks on <span> (x), close the modal
+span.onclick = function() {
+    modal.style.display = "none";
+}
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
+}
+</script>
+
+
+
+<!-- side bar code -->
+  <div id="mySidebar" class="sidebar">
+    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
+    <a ng-class="highlight('total_points')" href='' ng-click="sortByColumn('-total_points');">Total Points</a>
+      <a ng-class="highlight('now_cost')" href='' ng-click="sortByColumn('-now_cost');" >Cost</a>
+      <a ng-class="highlight('cost_change_event')" href='' ng-click="sortByColumn('-cost_change_event');" >Cost Change</a>
+      <a ng-class="highlight('total_points')" href='' ng-click="sortByColumn('-total_points');" >Total Points</a>
+      <a ng-class="highlight('event_points')" href='' ng-click="sortByColumn('-event_points');" >Points</a>
+      <a ng-class="highlight('points_per_cost')" href='' ng-click="sortByColumn('-points_per_cost');" >Points / Cost</a>
+      <a ng-class="highlight('goals_scored')" href='' ng-click="sortByColumn('-goals_scored');" >Goals</a>
+      <a ng-class="highlight('assists')" href='' ng-click="sortByColumn('-assists');" >Assists</a>
+      <a ng-class="highlight('minutes')" href='' ng-click="sortByColumn('-minutes');" >Min</a>
+      <a ng-class="highlight('form')" href='' ng-click="sortByColumn('-form');" >Form</a>
+      <a ng-class="highlight('bonus')" href='' ng-click="sortByColumn('-bonus');" >Bonus</a>
+      <a ng-class="highlight('clean_sheets')" href='' ng-click="sortByColumn('-clean_sheets');" >Clean Sheets</a>
+      <a ng-class="highlight('saves')" href='' ng-click="sortByColumn('-saves');" >Saves</a>
+      <a ng-class="highlight('red_cards')" href='' ng-click="sortByColumn('-red_cards');" >Reds</a>
+      <a ng-class="highlight('yellow_cards')" href='' ng-click="sortByColumn('-yellow_cards');" >Yellows</a>
+      <a ng-class="highlight('penalties_missed')" href='' ng-click="sortByColumn('-penalties_missed');" >Pen Miss</a>
+      <a ng-class="highlight('own_goals')" href='' ng-click="sortByColumn('-own_goals');" >Own Goals</a>
+      <a ng-class="highlight('selected_by_percent')" href='' ng-click="sortByColumn('-selected_by_percent');" >Selected %</a>
+      <a ng-class="highlight('transfers_in_event')" href='' ng-click="sortByColumn('-transfers_in_event');" >Tansfers in</a>
+      <a ng-class="highlight('transfers_out_event')" href='' ng-click="sortByColumn('-transfers_out_event');" >Tansfers out</a>
+      <a ng-class="highlight('transfer_diff')" href='' ng-click="sortByColumn('-transfer_diff');" >Tansfers Diff</a>
+      <a ng-class="highlight('dreamteam_count')" href='' ng-click="sortByColumn('-dreamteam_count');" >Dream Team</a>
+      <a ng-class="highlight('ea_index')" href='' ng-click="sortByColumn('-ea_index');" >EA index</a>
+      
+  </div>
+
+
+
+<script>
+  function openNav() {
+      document.getElementById("mySidebar").style.width = "250px";
+      document.getElementById("main").style.marginLeft = "250px";
+  }
+
+  function closeNav() {
+      document.getElementById("mySidebar").style.width = "0";
+      document.getElementById("main").style.marginLeft= "0";
+}
+</script>
+     
+<!-- drop down menu script -->
+<script>
+function myFunction() {
+  var x = document.getElementById("myLinks");
+  if (x.style.display === "block") {
+    x.style.display = "none";
+  } else {
+    x.style.display = "block";
+  }
+}
+</script>
+
+
+Key<br>
+<i class="fa fa-star"></i> = In last week's dream team<br>
+x = transferred/loadned<br>
+i = injured <br>
+s = suspended<br>
+
+
+</body>
+</html>
