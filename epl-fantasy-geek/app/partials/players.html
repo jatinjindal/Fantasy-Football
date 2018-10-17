@@ -1,0 +1,157 @@
+
+<div class="filterForm">
+  <form class="form-inline" role="form">
+    <div class="form-group">
+      <label>Filter by:</label>
+    </div>
+    <div class="form-group">
+      <label>Last Name:</label>
+      <input type="text" id="name" ng-model="search.web_name" placeholder="" class="form-control" />
+    </div>
+    <div class="form-group">
+      <label>Team:</label>
+      <select ng-model="search.team" ng-options="t.name for t in teams track by t.short_name" class="form-control">
+        <option value="">ALL</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label title="Leave blank to see all positions">Position:</label>
+      <select ng-model="search.position" class="form-control">
+        <option>ALL</option>
+        <option>FWD</option>
+        <option>MID</option>
+        <option>DEF</option>
+        <option>GK</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label title="Only show the players who have played at least this many minutes">Min minutes:</label>
+      <input type="text" id="minutes" ng-model="search.minMinutes" placeholder="0" style='width:50px;' class="form-control" />
+    </div>
+    <div class="form-group">
+      <a ng-click="reset()" class='btn btn-default'>Reset Filters</a>
+      <a ng-click="clearPins()" class='btn btn-default'>Removed Pinned Players</a>
+      <a href="js/static-data.json" class="btn btn-default"><i class="fa fa-cloud-download"></i> download raw JSON</a>
+    </div>
+  </form>
+</div>
+
+<ul class="list-inline">
+  <li>Custom Filters:</li>
+  <li ng-repeat="r in reports"><a href='' ng-click='loadReport(r);'>{{ r.name }}</a></li>
+</ul>
+
+<!--
+<ul class='list-inline'>
+  <li>Sorting by:
+  <li ng-repeat="c in sort.orders">{{ c }}</li>
+</ul>
+-->
+
+
+
+<div ng-hide="players" class='loading text-center'>
+  <i class="fa fa-spinner"></i> Loading...
+</div>
+
+<table ng-show="players" >
+  <thead>
+    <tr>
+      <th ng-class="highlight('pinned')" >pin</th>
+      <th ng-class="highlight('web_name')"><a href='' ng-click="sortByColumn('web_name');" >Name</a></th>
+      <th ng-class="highlight('team.short_name')"><a href='' ng-click="sortByColumn('team.short_name');" >Team</a></th>
+      <th ng-class="highlight('position')"><a href='' ng-click="sortByColumn('position');" >Pos</a></th>
+      <th ng-class="highlight('now_cost')"><a href='' ng-click="sortByColumn('-now_cost');" >Cost</a></th>
+      <th ng-class="highlight('cost_change_event')"><a href='' ng-click="sortByColumn('-cost_change_event');" >Cost Change</a></th>
+      <th ng-class="highlight('total_points')"><a href='' ng-click="sortByColumn('-total_points');" >Total Points</a></th>
+      <th ng-class="highlight('event_points')"><a href='' ng-click="sortByColumn('-event_points');" >Points</a></th>
+      <th ng-class="highlight('points_per_cost')"><a href='' ng-click="sortByColumn('-points_per_cost');" >Points / Cost</a></th>
+      <th ng-class="highlight('goals_scored')"><a href='' ng-click="sortByColumn('-goals_scored');" >Goals</a></th>
+      <th ng-class="highlight('assists')"><a href='' ng-click="sortByColumn('-assists');" >Assists</a></th>
+      <th ng-class="highlight('minutes')"><a href='' ng-click="sortByColumn('-minutes');" >Min</a></th>
+      <th ng-class="highlight('form')"><a href='' ng-click="sortByColumn('-form');" >Form</a></th>
+      <th ng-class="highlight('bonus')"><a href='' ng-click="sortByColumn('-bonus');" >Bonus</a></th>
+      <th ng-class="highlight('clean_sheets')"><a href='' ng-click="sortByColumn('-clean_sheets');" >Clean Sheets</a></th>
+      <th ng-class="highlight('saves')"><a href='' ng-click="sortByColumn('-saves');" >Saves</a></th>
+      <th ng-class="highlight('red_cards')"><a href='' ng-click="sortByColumn('-red_cards');" >Reds</a></th>
+      <th ng-class="highlight('yellow_cards')"><a href='' ng-click="sortByColumn('-yellow_cards');" >Yellows</a></th>
+      <th ng-class="highlight('penalties_missed')"><a href='' ng-click="sortByColumn('-penalties_missed');" >Pen Miss</a></th>
+      <th ng-class="highlight('own_goals')"><a href='' ng-click="sortByColumn('-own_goals');" >Own Goals</a></th>
+      <th ng-class="highlight('selected_by_percent')"><a href='' ng-click="sortByColumn('-selected_by_percent');" >Selected %</a></th>
+      <th ng-class="highlight('transfers_in_event')"><a href='' ng-click="sortByColumn('-transfers_in_event');" >Tansfers in</a></th>
+      <th ng-class="highlight('transfers_out_event')"><a href='' ng-click="sortByColumn('-transfers_out_event');" >Tansfers out</a></th>
+      <th ng-class="highlight('transfer_diff')"><a href='' ng-click="sortByColumn('-transfer_diff');" >Tansfers Diff</a></th>
+      <th ng-class="highlight('dreamteam_count')"><a href='' ng-click="sortByColumn('-dreamteam_count');" >Dream Team</a></th>
+      <th ng-class="highlight('ea_index')"><a href='' ng-click="sortByColumn('-ea_index');" >EA index</a></th>
+      <th ng-class="highlight('status')"><a href='' ng-click="sortByColumn('-status');" >Status</a></th>
+      <th ng-class="highlight('news')"><a href='' ng-click="sortByColumn('-news');" >News / Injuries</a></th>
+      <th ng-class="highlight('twitter')"><a href='' ng-click="sortByColumn('-twitter')"><i class="fa fa-twitter fa-2x" ></i></a></th>
+      <th><i class="fa fa-youtube fa-2x" title='youtube highlights'></i></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr ng-repeat="p in players | filter:searchFilter | orderBy:sort.orders">
+      <td>
+        <input type="checkbox" ng-model="p.pinned" title='pin {{ p.id }}' />
+      </td>
+      <td>
+        <span title="{{ p.first_name }} {{ p.second_name }}">{{ p.web_name }}</span>
+      </td>
+      <td class='center'>{{ p.team.short_name }}</td>
+      <td class='center'>{{ p.posn }}</td>
+      <td class="right">{{ p.now_cost / 10 | number:1 }}</td>
+      <td class='right {{ p.cost_change_event | movement }} center'>{{ p.cost_change_event/10 | number:1 | n }}</td>
+      <td class='center points'>{{ p.total_points | n }}</td>
+      <td class='center'>{{ p.event_points | n }}</td>
+      <td class='center'>
+          <span ng-show='p.points_per_cost > 0'>{{ p.points_per_cost | number:1 }}</span>
+      </td>
+      <td class='center'>{{ p.goals_scored | n }}</td>
+      <td class='center'>{{ p.assists | n}}</td>
+      <td class='right' title='minutes'>
+        <span ng-show='p.minutes > 0'>{{ p.minutes | n  | number }}</span>
+      </td>
+      <td class='center'>{{ p.form | n }}</td>
+      <td class='center'>{{ p.bonus | n }}</td>
+      <td class='center'>{{ p.clean_sheets | n }}</td>
+      <td class='center'>{{ p.saves | n }}</td>
+      <td class='center'>{{ p.red_cards | n }}</td>
+      <td class='center'>{{ p.yellow_cards | n }}</td>
+      <td class='center'>{{ p.penalties_missed | n }}</td>
+      <td class='center'>{{ p.own_goals | n }}</td>
+      <td class='right'>{{ p.selected_by_percent }} %</td>
+      <td class='right'>{{ p.transfers_in_event | number }}</td>
+      <td class='right'>{{ p.transfers_out_event | number }}</td>
+      <td class='right {{ p.transfer_diff | movement }}'>{{ p.transfer_diff | number }}</td>
+      <td class='dream right' title=' Dreamteam this week and total'>
+        <i class="fa fa-star" ng-show='p.in_dreamteam'></i>&nbsp;{{ p.dreamteam_count | n }}
+      </td>
+      <td class='center'>
+        <span ng-show='p.ea_index > 0'>{{ p.ea_index | number }}</span>
+      </td>
+      <td class='center'>
+        <span class="status {{ p.status | status:p.chance_of_playing_this_round:p.news }}" ng-hide=" p.status == 'a' "> {{ p.status | statusText:p.chance_of_playing_this_round:p.news }} </span>
+      </td>
+      <td>
+        <a href="https://www.google.com/search?hl=en&gl=us&tbm=nws&authuser=0&tbs=qdr:w&&q={{ p.web_name }} {{ p.team.name }}" title='view google news headlines' target="_blank">
+          <i class="fa fa-newspaper-o"></i> {{ p.news }}</a>
+      </td>
+      <td>
+        <a href="https://twitter.com/{{ p.twitter }}" ng-show="p.twitter" target="_blank">
+          <i class="fa fa-twitter fa-2x" title='{{ p.twitter }} {{ p.web_name }}'></i>
+        </a>
+      </td>
+      <td>
+        <a href="https://www.youtube.com/results?search_query={{ p.web_name }}+{{ p.team.name }}" target="_blank" title='Search for youtube highlights'>
+          <i class="fa fa-youtube-play fa-2x"></i>
+        </a>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+Key<br>
+<i class="fa fa-star"></i> = In last week's dream team<br>
+x = transferred/loadned<br>
+i = injured <br>
+s = suspended<br>
