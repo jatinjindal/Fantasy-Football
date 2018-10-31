@@ -5,9 +5,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-
+<!-- dropdown button -->
 <style>
   .dropbtn {
       background-color: #111;
@@ -28,19 +31,18 @@
       display: none;
       position: absolute;
       background-color: #111;
-      min-width: 160px;
-      box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+      min-width: 5%;
+      /* box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2); */
       z-index: 1;
   }
 
   .dropdown-content a {
       color: black;
-      padding: 12px 16px;
       text-decoration: none;
       display: block;
   }
 
-  .dropdown-content a:hover {background-color: rgb(255,0,0)}
+  .dropdown-content a:hover {background-color: rgb(225,0,0)}
 
   .dropdown:hover .dropdown-content {
       display: block;
@@ -51,6 +53,7 @@
   }
 </style>
 
+<!-- open button -->
 <style>
   body {
       font-family: "Lato", sans-serif;
@@ -115,15 +118,16 @@
   }
 </style>
 
+<!-- everything -->
 <style>
   body {
     font-family: Arial, Helvetica, sans-serif;
   }
 
   .mobile-container {
-    max-width: 620px;
+    max-width: max-content;
     background-color: rgb(255,255,255);
-    height: 900px;
+    height: 90%;
     color: white;
     border-radius: 10px;
   }
@@ -164,134 +168,121 @@
         margin-bottom: 5%;
     }
 
+    .selection {
+        display: flex;
+        justify-content: center;
+        align-content: center;
+    }
 </style>
 
 </head>
 
 
-
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
 <body>
 
-
-
-
-
-<!--
-<ul class='list-inline'>
-  <li>Sorting by:
-  <li ng-repeat="c in sort.orders">{{ c }}</li>
-</ul>
--->
-
 <!-- Simulate a smartphone / tablet -->
-<div class="mobile-container" style="float:left; width:38%" >
-  <div class="topnav">
-    <a class="active">Custom Filters</a>
+<div class="mobile-container" style="float:left; width:max-content" >
+    <div class="topnav">
+        <a class="active">Custom Filters</a>
 
-
-    <!-- Top Navigation Menu -->
-    <div class="filterForm">
-      <form class="form-inline" role="form">
-
-      <button class="openbtn" onclick="openNav()">☰ Sort By</button>
-      <div class="dropdown">
-        <button class="dropbtn">Player types</button>
-        <div class="dropdown-content">
-
-        <ul class="list-inline">
-          <li ng-repeat="r in reports"><a href='' ng-click='loadReport(r);'>{{ r.name }}</a></li>
-        </ul>
-
+        <!-- Top Navigation Menu -->
+        <div class="filterForm">
+            <form class="form-inline" role="form">
+                <button class="openbtn" onclick="openNav()">☰ Sort By</button>
+                <div class="dropdown">
+                    <button class="dropbtn">Player types</button>
+                    <div class="dropdown-content">
+                        <ul class="list-inline">
+                            <li ng-repeat="r in reports"><a href='' ng-click='loadReport(r);'>{{ r.name }}</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <button ng-click="reset()" class='dropbtn'>Reset Filters</button>
+                    <button ng-click="clearPins()" class='dropbtn'>Removed Pinned Players</button>
+                </div>
+            </form>
         </div>
-      </div>
-          <div class="form-group">
-          <button ng-click="reset()" class='dropbtn'>Reset Filters</button>
-          <button ng-click="clearPins()" class='dropbtn'>Removed Pinned Players</button>
-          </div>
-        </form>
+
+        <div ng-hide="players" class='loading text-center'></div>
+
+        <div id="myLinks">
+            <div class="filterForm">
+                <a <form class="form-inline" role="form">
+                    <div class="form-group">
+                        <label>Last Name:</label>
+                        <input type="text" id="name" ng-model="search.web_name" placeholder="" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label>Team:</label>
+                        <select ng-model="search.team" ng-options="t.name for t in teams track by t.short_name" class="form-control">
+                        <option value="">ALL</option>
+                        </select>
+                    </div>
+                    <br>
+                    <br>
+                    <div class="form-group">
+                        <label title="Leave blank to see all positions">Position:</label>
+                        <select ng-model="search.position" class="form-control">
+                        <option>ALL</option>
+                        <option>FWD</option>
+                        <option>MID</option>
+                        <option>DEF</option>
+                        <option>GK</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label title="Only show the players who have played at least this many minutes">Min minutes:</label>
+                        <input type="text" id="minutes" ng-model="search.minMinutes" placeholder="0" style='width:50px;' class="form-control" />
+                    </div>
+                </form></a>
+            </div>
+        </div>
+
+        <a href="javascript:void(0);" class="icon" onclick="myFunction()">
+            <i class="fa fa-bars"></i>
+        </a>
+
+        <!-- table -->
+        <div style="display: flex;justify-content: center;align-content: center;height:50%;width:100%;border:1% solid #ccc;font:1em/3em Georgia, Garamond, Serif;overflow:auto;">
+            <table ng-show="players" >
+                <thead>
+                    <tr>
+                    <th ng-class="highlight('pinned')">Pin</th>
+                    <th ng-class="highlight('web_name')"><a href='' ng-click="sortByColumn('web_name');" >Name</a></th>
+                    <th ng-class="highlight('team.short_name')"><a href='' ng-click="sortByColumn('team.short_name');" >Team</a></th>
+                    <th ng-class="highlight('position')"><a href='' ng-click="sortByColumn('position');" >Pos</a></th>
+                    <th ng-class="highlight('now_cost')"><a href='' ng-click="sortByColumn('-now_cost');" >Cost</a></th>
+                    <!-- <th><i class="fa fa-youtube fa-2x" title='youtube highlights'></i></th> -->
+                    </tr>
+                </thead>
+                <tbody bgcolor = rgb(0,0,255)>
+                    <tr bgcolor = rgb(0,0,255) ng-repeat="p in players | filter:searchFilter | orderBy:sort.orders">
+                    <td bgcolor = rgb(0,0,255)>
+                    <input type="checkbox" id="{{ p.id }}" ng-click="chooseplayer(p.first_name,p.second_name,p.posn,p.id)" ng-model="p.pinned" title='pin {{ p.id }}'>
+                    </td>
+                    <td bgcolor = rgb(0,0,255)>
+                    <span title="{{ p.first_name }} {{ p.second_name }}">{{ p.web_name }}</span>
+                    </td>
+                    <td bgcolor = rgb(0,0,255) class='center'>{{ p.team.short_name }}</td>
+                    <td bgcolor = rgb(0,0,255) class='center'>{{ p.posn }}</td>
+                    <td bgcolor = rgb(0,0,255) class="right">{{ p.now_cost / 10 | number:1 }}</td>
+                    <!-- <td bgcolor = rgb(0,0,255)>
+                    <a href="https://www.youtube.com/results?search_query={{ p.web_name }}+{{ p.team.name }}" target="_blank" title='Search for youtube highlights'>
+                    <i class="fa fa-youtube-play fa-2x"></i>
+                    </a>
+                    </td> -->
+
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
-
-
-    <div ng-hide="players" class='loading text-center'></div>
-
-    <div id="myLinks">
-      <div class="filterForm">
-          <a <form class="form-inline" role="form">
-          <div class="form-group">
-            <label>Last Name:</label>
-            <input type="text" id="name" ng-model="search.web_name" placeholder="" class="form-control" />
-          </div>
-          <div class="form-group">
-            <label>Team:</label>
-            <select ng-model="search.team" ng-options="t.name for t in teams track by t.short_name" class="form-control">
-              <option value="">ALL</option>
-            </select>
-          </div>
-          <br>
-          <br>
-          <div class="form-group">
-            <label title="Leave blank to see all positions">Position:</label>
-            <select ng-model="search.position" class="form-control">
-              <option>ALL</option>
-              <option>FWD</option>
-              <option>MID</option>
-              <option>DEF</option>
-              <option>GK</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label title="Only show the players who have played at least this many minutes">Min minutes:</label>
-            <input type="text" id="minutes" ng-model="search.minMinutes" placeholder="0" style='width:50px;' class="form-control" />
-          </div>
-
-          </div></form></a>
-
-    </div>
-
-    <a href="javascript:void(0);" class="icon" onclick="myFunction()">
-      <i class="fa fa-bars"></i>
-    </a>
-
-    <div style="height:600px;width:620px;border:1px solid #ccc;font:16px/26px Georgia, Garamond, Serif;overflow:auto;">
-
-      <table ng-show="players" >
-      <thead>
-        <tr>
-          <th ng-class="highlight('pinned')" >pin</th>
-          <th ng-class="highlight('web_name')"><a href='' ng-click="sortByColumn('web_name');" >Name</a></th>
-          <th ng-class="highlight('team.short_name')"><a href='' ng-click="sortByColumn('team.short_name');" >Team</a></th>
-          <th ng-class="highlight('position')"><a href='' ng-click="sortByColumn('position');" >Pos</a></th>
-         <th ng-class="highlight('now_cost')"><a href='' ng-click="sortByColumn('-now_cost');" >Cost</a></th>
-           <th><i class="fa fa-youtube fa-2x" title='youtube highlights'></i></th>
-        </tr>
-      </thead>
-      <tbody bgcolor = rgb(0,0,255)>
-        <tr bgcolor = rgb(0,0,255) ng-repeat="p in players | filter:searchFilter | orderBy:sort.orders">
-          <td bgcolor = rgb(0,0,255)>
-            <input type="checkbox" id="{{ p.id }}" ng-click="chooseplayer(p.first_name,p.second_name,p.posn,p.id)" ng-model="p.pinned" title='pin {{ p.id }}'>
-          </td>
-          <td bgcolor = rgb(0,0,255)>
-            <span title="{{ p.first_name }} {{ p.second_name }}">{{ p.web_name }}</span>
-          </td>
-          <td bgcolor = rgb(0,0,255) class='center'>{{ p.team.short_name }}</td>
-          <td bgcolor = rgb(0,0,255) class='center'>{{ p.posn }}</td>
-          <td bgcolor = rgb(0,0,255) class="right">{{ p.now_cost / 10 | number:1 }}</td>
-          <td bgcolor = rgb(0,0,255)>
-            <a href="https://www.youtube.com/results?search_query={{ p.web_name }}+{{ p.team.name }}" target="_blank" title='Search for youtube highlights'>
-              <i class="fa fa-youtube-play fa-2x"></i>
-            </a>
-          </td>
-
-        </tr>
-      </tbody>
-      </table>
-    </div>
-  </div>
 </div>
 
 
-<div style="float:left; width:60%; margin-left:10px;">
+<div style="float:left; width:60%; margin-left:1%;">
     <h2 id="init-heading" class="tophead"> Choose a Formation </h2>
 
     <div id="selection" class = "selection">
@@ -308,60 +299,47 @@
     </div>
 
     <!-- The Modal -->
-    <div id="myModal" class="modal">
-        <!-- Modal content -->
+    <!-- <div id="myModal" class="modal">
         <div class="modal-box">
             <span class="close">&times;</span>
             <div class="modal-content">
             </div>
         </div>
-    </div>
+    </div> -->
 
 
-<!-- <button onClick="test()">DEBUG</button>
-<p> my defenders = {{curdefenders}} </p>
-<p> my forwards = {{curforwards}} </p>
-<p> my midfielders = {{curmidfielders}} </p>
-
-<button type="button" ng-click="selectplayer()" ng-init="aname='Select Player'">{{aname}}</button>
- --></div>
-
-
-
-
+</div>
 
 <!-- side bar code -->
-  <div id="mySidebar" class="sidebar">
-    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
-    <a ng-class="highlight('total_points')" href='' ng-click="sortByColumn('-total_points');">Total Points</a>
-      <a ng-class="highlight('now_cost')" href='' ng-click="sortByColumn('-now_cost');" >Cost</a>
-      <a ng-class="highlight('cost_change_event')" href='' ng-click="sortByColumn('-cost_change_event');" >Cost Change</a>
-      <a ng-class="highlight('total_points')" href='' ng-click="sortByColumn('-total_points');" >Total Points</a>
-      <a ng-class="highlight('event_points')" href='' ng-click="sortByColumn('-event_points');" >Points</a>
-      <a ng-class="highlight('points_per_cost')" href='' ng-click="sortByColumn('-points_per_cost');" >Points / Cost</a>
-      <a ng-class="highlight('goals_scored')" href='' ng-click="sortByColumn('-goals_scored');" >Goals</a>
-      <a ng-class="highlight('assists')" href='' ng-click="sortByColumn('-assists');" >Assists</a>
-      <a ng-class="highlight('minutes')" href='' ng-click="sortByColumn('-minutes');" >Min</a>
-      <a ng-class="highlight('form')" href='' ng-click="sortByColumn('-form');" >Form</a>
-      <a ng-class="highlight('bonus')" href='' ng-click="sortByColumn('-bonus');" >Bonus</a>
-      <a ng-class="highlight('clean_sheets')" href='' ng-click="sortByColumn('-clean_sheets');" >Clean Sheets</a>
-      <a ng-class="highlight('saves')" href='' ng-click="sortByColumn('-saves');" >Saves</a>
-      <a ng-class="highlight('red_cards')" href='' ng-click="sortByColumn('-red_cards');" >Reds</a>
-      <a ng-class="highlight('yellow_cards')" href='' ng-click="sortByColumn('-yellow_cards');" >Yellows</a>
-      <a ng-class="highlight('penalties_missed')" href='' ng-click="sortByColumn('-penalties_missed');" >Pen Miss</a>
-      <a ng-class="highlight('own_goals')" href='' ng-click="sortByColumn('-own_goals');" >Own Goals</a>
-      <a ng-class="highlight('selected_by_percent')" href='' ng-click="sortByColumn('-selected_by_percent');" >Selected %</a>
-      <a ng-class="highlight('transfers_in_event')" href='' ng-click="sortByColumn('-transfers_in_event');" >Tansfers in</a>
-      <a ng-class="highlight('transfers_out_event')" href='' ng-click="sortByColumn('-transfers_out_event');" >Tansfers out</a>
-      <a ng-class="highlight('transfer_diff')" href='' ng-click="sortByColumn('-transfer_diff');" >Tansfers Diff</a>
-      <a ng-class="highlight('dreamteam_count')" href='' ng-click="sortByColumn('-dreamteam_count');" >Dream Team</a>
-      <a ng-class="highlight('ea_index')" href='' ng-click="sortByColumn('-ea_index');" >EA index</a>
+<div id="mySidebar" class="sidebar">
+<a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
+<a ng-class="highlight('total_points')" href='' ng-click="sortByColumn('-total_points');">Total Points</a>
+  <a ng-class="highlight('now_cost')" href='' ng-click="sortByColumn('-now_cost');" >Cost</a>
+  <a ng-class="highlight('cost_change_event')" href='' ng-click="sortByColumn('-cost_change_event');" >Cost Change</a>
+  <a ng-class="highlight('total_points')" href='' ng-click="sortByColumn('-total_points');" >Total Points</a>
+  <a ng-class="highlight('event_points')" href='' ng-click="sortByColumn('-event_points');" >Points</a>
+  <a ng-class="highlight('points_per_cost')" href='' ng-click="sortByColumn('-points_per_cost');" >Points / Cost</a>
+  <a ng-class="highlight('goals_scored')" href='' ng-click="sortByColumn('-goals_scored');" >Goals</a>
+  <a ng-class="highlight('assists')" href='' ng-click="sortByColumn('-assists');" >Assists</a>
+  <a ng-class="highlight('minutes')" href='' ng-click="sortByColumn('-minutes');" >Min</a>
+  <a ng-class="highlight('form')" href='' ng-click="sortByColumn('-form');" >Form</a>
+  <a ng-class="highlight('bonus')" href='' ng-click="sortByColumn('-bonus');" >Bonus</a>
+  <a ng-class="highlight('clean_sheets')" href='' ng-click="sortByColumn('-clean_sheets');" >Clean Sheets</a>
+  <a ng-class="highlight('saves')" href='' ng-click="sortByColumn('-saves');" >Saves</a>
+  <a ng-class="highlight('red_cards')" href='' ng-click="sortByColumn('-red_cards');" >Reds</a>
+  <a ng-class="highlight('yellow_cards')" href='' ng-click="sortByColumn('-yellow_cards');" >Yellows</a>
+  <a ng-class="highlight('penalties_missed')" href='' ng-click="sortByColumn('-penalties_missed');" >Pen Miss</a>
+  <a ng-class="highlight('own_goals')" href='' ng-click="sortByColumn('-own_goals');" >Own Goals</a>
+  <a ng-class="highlight('selected_by_percent')" href='' ng-click="sortByColumn('-selected_by_percent');" >Selected %</a>
+  <a ng-class="highlight('transfers_in_event')" href='' ng-click="sortByColumn('-transfers_in_event');" >Tansfers in</a>
+  <a ng-class="highlight('transfers_out_event')" href='' ng-click="sortByColumn('-transfers_out_event');" >Tansfers out</a>
+  <a ng-class="highlight('transfer_diff')" href='' ng-click="sortByColumn('-transfer_diff');" >Tansfers Diff</a>
+  <a ng-class="highlight('dreamteam_count')" href='' ng-click="sortByColumn('-dreamteam_count');" >Dream Team</a>
+  <a ng-class="highlight('ea_index')" href='' ng-click="sortByColumn('-ea_index');" >EA index</a>
 
-  </div>
+</div>
 
-
-
-  <script>
+<script>
     function openNav() {
         document.getElementById("mySidebar").style.width = "250px";
         document.getElementById("main").style.marginLeft = "250px";
@@ -370,24 +348,20 @@
     function closeNav() {
         document.getElementById("mySidebar").style.width = "0";
         document.getElementById("main").style.marginLeft= "0";
-
-  }
-  </script>
-
+    }
+</script>
 
 <!-- drop down menu script -->
-  <script>
-  function myFunction() {
-  var x = document.getElementById("myLinks");
-  if (x.style.display === "block") {
-    x.style.display = "none";
-  } else {
-    x.style.display = "block";
-  }
-  }
-  </script>
-
-
+<script>
+    function myFunction() {
+        var x = document.getElementById("myLinks");
+        if (x.style.display === "block") {
+            x.style.display = "none";
+        } else {
+            x.style.display = "block";
+        }
+    }
 </script>
+
 </body>
 </html>
