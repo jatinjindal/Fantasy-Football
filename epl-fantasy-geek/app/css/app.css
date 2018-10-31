@@ -69,8 +69,8 @@ tr:nth-child(even) { background: #EEE; }
 .points { font-weight:bold; }
 .dream { font-weight:bold; text-align:center; }
 
-.filterForm { padding:6px 0; }
-.filterForm .form-group { padding-right:10px; }
+.filterForm { padding:2%;}
+.filterForm .form-group { padding-right:10px;}
 
 .footer { padding:10px 0; }
 

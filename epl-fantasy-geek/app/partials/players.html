@@ -15,7 +15,6 @@
   .dropbtn {
       background-color: #111;
       color: white;
-      padding: 4%;
       font-size: 1em;
       width: max-content;
       border: none;
@@ -69,7 +68,6 @@
       background-color: #111;
       overflow-x: hidden;
       transition: 0.5s;
-      padding-top: 60px;
   }
 
   .sidebar a {
@@ -98,7 +96,7 @@
       cursor: pointer;
       background-color: #111;
       color: white;
-      padding: 10px 15px;
+      padding: 3%;
       border: none;
   }
 
@@ -125,16 +123,17 @@
   }
 
   .mobile-container {
-    max-width: max-content;
-    background-color: rgb(255,255,255);
-    height: 90%;
+    width: 30%;
+    /* background-color: rgb(0,0,255); */
+    height: 550px;
+    overflow: scroll;
     color: white;
     border-radius: 10px;
   }
 
   .topnav {
-    overflow: hidden;
-    background-color: #333;
+    /* overflow: scroll; */
+    background-color: rgb(40,40,40);
     position: relative;
   }
 
@@ -143,16 +142,19 @@
   }
 
   .topnav a {
-    color: white;
+    color: rgb(255,255,255);
     padding: 14px 16px;
     text-decoration: none;
     font-size: 17px;
     display: block;
+    overflow: scroll;
   }
 
   .topnav a.icon {
+    color: rgb(255,255,0);
     background: black;
     display: block;
+    overflow: scroll;
     position: absolute;
     right: 0;
     top: 0;
@@ -181,28 +183,30 @@
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
 <body>
 
+<h2 id="init-heading" class="tophead"> Choose a Formation </h2>
+
 <!-- Simulate a smartphone / tablet -->
-<div class="mobile-container" style="float:left; width:max-content" >
+<div id="playerList" class="mobile-container" style="display: none; float:left;" >
     <div class="topnav">
         <a class="active">Custom Filters</a>
 
         <!-- Top Navigation Menu -->
         <div class="filterForm">
-            <form class="form-inline" role="form">
-                <button class="openbtn" onclick="openNav()">☰ Sort By</button>
-                <div class="dropdown">
-                    <button class="dropbtn">Player types</button>
-                    <div class="dropdown-content">
-                        <ul class="list-inline">
-                            <li ng-repeat="r in reports"><a href='' ng-click='loadReport(r);'>{{ r.name }}</a></li>
-                        </ul>
-                    </div>
+            <!-- <form class="form-inline" role="form"> -->
+            <button class="openbtn" onclick="openNav()">☰ Sort By</button>
+            <div class="dropdown">
+                <button class="dropbtn">Player types</button>
+                <div class="dropdown-content">
+                    <ul class="list-inline">
+                        <li ng-repeat="r in reports"><a href='' ng-click='loadReport(r);'>{{ r.name }}</a></li>
+                    </ul>
                 </div>
-                <div class="form-group">
-                    <button ng-click="reset()" class='dropbtn'>Reset Filters</button>
-                    <button ng-click="clearPins()" class='dropbtn'>Removed Pinned Players</button>
-                </div>
-            </form>
+            </div>
+            <!-- <div class="form-group"> -->
+            <button ng-click="reset()" class='dropbtn'>Reset Filters</button>
+            <button ng-click="clearPins()" class='dropbtn'>Reset Players</button>
+            <!-- </div> -->
+            <!-- </form> -->
         </div>
 
         <div ng-hide="players" class='loading text-center'></div>
@@ -245,7 +249,7 @@
         </a>
 
         <!-- table -->
-        <div style="display: flex;justify-content: center;align-content: center;height:50%;width:100%;border:1% solid #ccc;font:1em/3em Georgia, Garamond, Serif;overflow:auto;">
+        <div style="display: flex;justify-content: center;align-content: center;height:50%;width:100%;border:1% solid #ccc;font:1em/3em Georgia, Garamond, Serif;overflow:scroll;">
             <table ng-show="players" >
                 <thead>
                     <tr>
@@ -282,8 +286,7 @@
 </div>
 
 
-<div style="float:left; width:60%; margin-left:1%;">
-    <h2 id="init-heading" class="tophead"> Choose a Formation </h2>
+<div style="float:center; margin-left:1%;">
 
     <div id="selection" class = "selection">
         <div class="btn-group btn-group-lg" role="group" aria-label="Basic example">
