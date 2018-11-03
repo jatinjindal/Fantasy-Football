@@ -7,51 +7,77 @@ angular.module('myApp.controllers', [])
 
     var reportFilter = null;
 
-    $scope.chooseplayer = function(pfirstname,plastname,position,id){
+    $scope.curr_money = 75.0;
 
-        if(document.getElementById(id).checked) {
-
+    $scope.chooseplayer = function(pfirstname,plastname,position,id,cost){
+        if (document.getElementById(id).checked) {
             $scope.Jatinvar = pfirstname + ' ' + plastname;
             if(position == "D") {
                 if($scope.curdefenders == $scope.defenders) {
                     alert("Overflow");
+                    document.getElementById(id).checked = false;
                 }
                 else {
                     var num = $scope.forwards + $scope.midfielders + $scope.curdefenders;
                     document.getElementById('p'+num.toString()).innerHTML = pfirstname + ' ' + plastname;
                     $scope.curdefenders++;
+                    $scope.curr_money -= cost;
+                    document.getElementById("money").innerHTML = "Money remaining: $" + $scope.curr_money.toPrecision(3).toString() + " million";
                 }
             }
             else if(position == "M") {
                 if($scope.curmidfielders == $scope.midfielders) {
                     alert("Overflow");
+                    document.getElementById(id).checked = false;
                 }
                 else {
                     var num = $scope.forwards + $scope.curmidfielders;
                     document.getElementById('p'+num.toString()).innerHTML = pfirstname + ' ' + plastname;
                     $scope.curmidfielders++;
+                    $scope.curr_money -= cost;
+                    document.getElementById("money").innerHTML = "Money remaining: $" + $scope.curr_money.toPrecision(3).toString() + " million";
                 }
             }
             else if(position == "F") {
                 if($scope.curforwards == $scope.forwards) {
                     alert("Overflow");
+                    document.getElementById(id).checked = false;
                 }
                 else {
                     var num = $scope.curforwards;
                     document.getElementById('p'+num.toString()).innerHTML = pfirstname + ' ' + plastname;
                     $scope.curforwards++;
+                    $scope.curr_money -= cost;
+                    document.getElementById("money").innerHTML = "Money remaining: $" + $scope.curr_money.toPrecision(3).toString() + " million";
                 }
             }
             else if(position == "K") {
                 if($scope.curkeepers == 1) {
                     alert("Overflow");
+                    document.getElementById(id).checked = false;
                 }
                 else {
                     document.getElementById("p10").innerHTML = pfirstname + ' ' + plastname;
                     $scope.curkeepers++;
+                    $scope.curr_money -= cost;
+                    document.getElementById("money").innerHTML = "Money remaining: $" + $scope.curr_money.toPrecision(3).toString() + " million";
                 }
             }
 
+        }
+        else {
+            $scope.Jatinvar = pfirstname + ' ' + plastname;
+            for (var num = 0; num < 11; num++) {
+                if (document.getElementById('p'+num.toString()).innerHTML == $scope.Jatinvar) {
+                    document.getElementById('p'+num.toString()).innerHTML = "Select Player";
+                    $scope.curr_money += cost;
+                    document.getElementById("money").innerHTML = "Money remaining: $" + $scope.curr_money.toPrecision(3).toString() + " million";
+                    if (position == 'D') $scope.curdefenders--;
+                    if (position == 'M') $scope.curmidfielders--;
+                    if (position == 'F') $scope.curforwards--;
+                    if (position == 'K') $scope.curkeepers--;
+                }
+            }
         }
     };
 
@@ -160,6 +186,15 @@ angular.module('myApp.controllers', [])
         currTeam.style.width = '60%';
         document.body.appendChild(currTeam);
 
+        var money_row = $scope.createRow();
+        var money_badge = document.createElement("button");
+        money_badge.id = "money";
+        money_badge.style.size = "2em";
+        money_badge.setAttribute("class","btn btn-primary btn-lg");
+        money_badge.innerHTML = "Money remaining: $" + $scope.curr_money.toString() + " million";
+        money_row.appendChild(money_badge);
+        currTeam.appendChild(money_row)
+
         var t = 0;
         var forwards = [];
         var rowFor = $scope.createRow();
@@ -250,7 +285,8 @@ angular.module('myApp.controllers', [])
         $scope.curforwards = 0;
         $scope.curkeepers = 0;
 
-
+        $scope.curr_money = 75.0;
+        document.getElementById("money").innerHTML = "Money remaining: $" + $scope.curr_money.toPrecision(3).toString() + " million";
     };
 
     $scope.highlight = function(col) {
