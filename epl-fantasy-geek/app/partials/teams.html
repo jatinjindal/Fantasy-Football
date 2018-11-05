@@ -1,4 +1,50 @@
-League: {{ league.leagueCaption}} Matchday: {{ league.matchday}}
+<head>
+<style>
+    table, td, th {
+        border: 1% solid #ddd;
+        text-align: left;
+    }
+
+    table {
+        width: 60%;
+        margin-left:auto;
+        margin-right:auto;
+    }
+
+    th, td {
+        padding: 15px;
+    }
+</style>
+</head>
+
+
+<!-- League: {{ league.leagueCaption}} Matchday: {{ league.matchday}} -->
+
+
+<!-- <strong>Fixtures and Scores</strong> -->
+
+<table>
+  <thead>
+    <tr>
+      <th>Matchday</th>
+      <th>Date</th>
+      <th>Home</th>
+      <th>Home Score</th>
+      <th>Away Score</th>
+      <th>Away</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr ng-repeat="f in fixtures| orderBy:'-matchday'">
+      <td>{{ f.matchday }}</td>
+      <td>{{ f.date | date:'short' }}</td>
+      <td>{{ f.homeTeamName }}</td>
+      <td><span ng-show="f.result.goalsHomeTeam > -1">{{ f.result.goalsHomeTeam }}</span></td>
+      <td><span ng-show="f.result.goalsAwayTeam > -1">{{ f.result.goalsAwayTeam }}</span></td>
+      <td><span>{{ f.awayTeamName }}</span></td>
+    </tr>
+  </tbody>
+</table>
 
 <!-- <table class="standings" >
   <thead>
@@ -42,28 +88,3 @@ League: {{ league.leagueCaption}} Matchday: {{ league.matchday}}
     </tr>
   </tbody>
 </table> -->
-
-<strong>Fixtures and Scores</strong>
-
-<table class="fixtures" >
-  <thead>
-    <tr>
-      <th></th>
-      <th>Date</th>
-      <th>Home</th>
-      <th>Home Score</th>
-      <th>Away Score</th>
-      <th>Away</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr ng-repeat="f in fixtures">
-      <td>{{ f.matchday }}</td>
-      <td>{{ f.date | date:'short' }}</td>
-      <td>{{ f.homeTeamName }}</td>
-      <td><span ng-show="f.result.goalsHomeTeam > -1">{{ f.result.goalsHomeTeam }}</span></td>
-      <td><span ng-show="f.result.goalsAwayTeam > -1">{{ f.result.goalsAwayTeam }}</span></td>
-      <td><span>{{ f.awayTeamName }}</span></td>
-    </tr>
-  </tbody>
-</table>
