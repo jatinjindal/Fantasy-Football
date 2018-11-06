@@ -4,14 +4,14 @@
     <meta name="author" content="Raghukul Raman">
     <meta itemprop="name" content="Know Me - The PHP portfolio script"/>
     <meta itemprop="description" content=" Know Me is a portfolio script where you can show your skills. This is a lite-version."/>
-    <meta name="twitter:site" content="http://www.FantacyFootball.com/demos/KnowMe/"/>
+    <meta name="twitter:site" content="http://www.FantasyFootball.com/demos/KnowMe/"/>
     <meta name="twitter:title" content="Know Me is a portfolio script where you can show your skills. This is a lite-version.">
-    <meta name="twitter:description" content=" FantacyFootball delivers the best tutorials on Photoshop, webdesign recipes, inspirations and articles on how to make yourself a better designer."/>
+    <meta name="twitter:description" content=" FantasyFootball delivers the best tutorials on Photoshop, webdesign recipes, inspirations and articles on how to make yourself a better designer."/>
     <meta name="twitter:creator" content="Nirmalya Ghosh"/>
-    <meta name="twitter:domain" content="http://www.FantacyFootball.com/demos/KnowMe/"/>
-    <meta property="og:type" content="website"/> 
+    <meta name="twitter:domain" content="http://www.FantasyFootball.com/demos/KnowMe/"/>
+    <meta property="og:type" content="website"/>
     <meta property="og:title" content="Know Me - The PHP portfolio script"/>
     <meta property="og:description" content="Know Me is a portfolio script where you can show your skills. This is a lite-version."/>
-    <meta property="og:url" content="http://www.FantacyFootball.com/demos/KnowMe/"/>
-    <meta property="og:site_name" content="FantacyFootball - Creativity that inspires you"/>
-    <meta property="og:see_also" content="http://www.FantacyFootball.com"/>
+    <meta property="og:url" content="http://www.FantasyFootball.com/demos/KnowMe/"/>
+    <meta property="og:site_name" content="FantasyFootball - Creativity that inspires you"/>
+    <meta property="og:see_also" content="http://www.FantasyFootball.com"/>

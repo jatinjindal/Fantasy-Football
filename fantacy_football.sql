@@ -1,6 +1,6 @@
 -- MySQL dump 10.13  Distrib 5.5.41, for debian-linux-gnu (x86_64)
 --
--- Host: localhost    Database: fantacy_football
+-- Host: localhost    Database: Fantasy_football
 -- ------------------------------------------------------
 -- Server version	5.5.41-0ubuntu0.14.04.1
 

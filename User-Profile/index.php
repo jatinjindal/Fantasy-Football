@@ -1,8 +1,8 @@
 <?php include 'components/session-check-index.php' ?>
 <?php require '_database/database.php'; ?>
 <?php include 'controllers/base/head.php' ?>
-<body>	
-    <script type="text/javascript"> 
+<body>
+    <script type="text/javascript">
         ChangeIt();
     </script>
 <?php include 'controllers/navigation/index-before-login-navigation.php' ?>
@@ -14,7 +14,7 @@
                     </div>
                     <div class="row">
                     <div class="col-lg-6">
-                        <h1><b>Fantacy Football</b></h1>
+                        <h1><b>Fantasy Football</b></h1>
                         <h3>Form your team and compete!!</h3>
                         <br>
                         <?php include 'controllers/form/registration-form.php' ?>
@@ -28,4 +28,4 @@
             </div>
         </div> <!--/ .container -->
     </div><!--/ #headerwrap -->
-</body>    
+</body>
