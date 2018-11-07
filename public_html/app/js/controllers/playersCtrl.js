@@ -174,6 +174,35 @@ angular.module('myApp.controllers', [])
         return playericon;
     };
 
+    $scope.addContinueButton = function() {
+        // <form  method="post" action="../action_page.php">
+        //     <input type="hidden" name="money" value={{curr_money}}>
+        //     <input type="hidden" name="gkp" value={{sel_k}}>
+        //     <input type="hidden" name="def" value={{sel_d}}>
+        //     <input type="hidden" name="mid" value={{sel_m}}>
+        //     <input type="hidden" name="for" value={{sel_f}}>
+        //     <input type="submit" value="Submit" >
+        // </form>
+        var divForButton = document.createElement("div");
+        divForButton.style.position = "absolute";
+        divForButton.style.top = "25%";
+        divForButton.style.right = "5%";
+
+
+        var continueButton = document.createElement("button");
+        continueButton.id = "continue";
+        continueButton.setAttribute("class","btn btn-success btn-lg");
+        continueButton.innerHTML = "Continue";
+        continueButton.style.paddingLeft = "25%";
+        continueButton.style.paddingRight = "25%";
+        continueButton.onclick = function() {
+            var form = document.getElementById("submitform");
+            form.submit();
+        }
+        document.body.appendChild(divForButton);
+        divForButton.appendChild(continueButton);
+    }
+
     $scope.myscript = function(formation) {
         var ndef,nmid,nfor;
         ndef = formation / 100; ndef = Math.floor(ndef);
@@ -192,20 +221,7 @@ angular.module('myApp.controllers', [])
         document.getElementById("init-heading").style.marginBottom = "2%";
         document.getElementById("selection").remove();
 
-        var continueButton = document.createElement("button");
-        continueButton.id = "continue";
-        continueButton.type = "button";
-        continueButton.style.position = "absolute";
-        continueButton.style.top = "5%";
-        continueButton.style.right = "5%";
-        continueButton.setAttribute("class","btn btn-success btn-lg");
-        continueButton.innerHTML = "Continue";
-        continueButton.style.paddingLeft = "5%";
-        continueButton.style.paddingRight = "5%";
-        continueButton.onclick = function() {
-            // send the chosen array to the next page
-        }
-        document.body.appendChild(continueButton);
+        $scope.addContinueButton();
 
         document.body.style.backgroundColor = "rgb(100,155,0)";
         document.body.style.backgroundRepeat = "no-repeat";
