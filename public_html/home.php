@@ -32,6 +32,7 @@
                 <li><a href="edit-profile.php">Edit your profile</a></li>
                 <li><a href="all-users.php">View all users</a></li>
                 <li><a href="app/#/players">Edit Your Team </a> </li>
+                <li><a href="yourteam.php">View Your Team </a> </li>
                 <li><a href="app/#/teams">View Team Standing </a> </li>
                 <li><a href="components/logout.php">Logout</a></li>
                 <li></li>
