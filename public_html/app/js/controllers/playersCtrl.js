@@ -7,9 +7,19 @@ angular.module('myApp.controllers', [])
 
     var reportFilter = null;
 
+    $scope.sel_d = [];
+    $scope.sel_m = [];
+    $scope.sel_f = [];
+    $scope.sel_k = [];
     $scope.curr_money = 75.0;
 
-    $scope.chooseplayer = function(pfirstname,plastname,position,id,cost){
+    $scope.chooseplayer = function(p){
+        // p.first_name,p.second_name,p.posn,p.id,p.now_cost/10
+        var pfirstname = p.first_name;
+        var plastname = p.second_name;
+        var position = p.posn;
+        var id = p.id;
+        var cost = p.now_cost/10;
         if (document.getElementById(id).checked) {
             $scope.Jatinvar = pfirstname + ' ' + plastname;
             if(position == "D") {
@@ -22,6 +32,7 @@ angular.module('myApp.controllers', [])
                     document.getElementById('p'+num.toString()).innerHTML = pfirstname + ' ' + plastname;
                     $scope.curdefenders++;
                     $scope.curr_money -= cost;
+                    $scope.sel_d.push(p.id);
                     document.getElementById("money").innerHTML = "Money remaining: $" + $scope.curr_money.toPrecision(3).toString() + " million";
                 }
             }
@@ -35,6 +46,7 @@ angular.module('myApp.controllers', [])
                     document.getElementById('p'+num.toString()).innerHTML = pfirstname + ' ' + plastname;
                     $scope.curmidfielders++;
                     $scope.curr_money -= cost;
+                    $scope.sel_m.push(p.id);
                     document.getElementById("money").innerHTML = "Money remaining: $" + $scope.curr_money.toPrecision(3).toString() + " million";
                 }
             }
@@ -48,6 +60,7 @@ angular.module('myApp.controllers', [])
                     document.getElementById('p'+num.toString()).innerHTML = pfirstname + ' ' + plastname;
                     $scope.curforwards++;
                     $scope.curr_money -= cost;
+                    $scope.sel_f.push(p.id);
                     document.getElementById("money").innerHTML = "Money remaining: $" + $scope.curr_money.toPrecision(3).toString() + " million";
                 }
             }
@@ -60,6 +73,7 @@ angular.module('myApp.controllers', [])
                     document.getElementById("p10").innerHTML = pfirstname + ' ' + plastname;
                     $scope.curkeepers++;
                     $scope.curr_money -= cost;
+                    $scope.sel_k.push(p.id);
                     document.getElementById("money").innerHTML = "Money remaining: $" + $scope.curr_money.toPrecision(3).toString() + " million";
                 }
             }
@@ -72,12 +86,38 @@ angular.module('myApp.controllers', [])
                     document.getElementById('p'+num.toString()).innerHTML = "Select Player";
                     $scope.curr_money += cost;
                     document.getElementById("money").innerHTML = "Money remaining: $" + $scope.curr_money.toPrecision(3).toString() + " million";
-                    if (position == 'D') $scope.curdefenders--;
-                    if (position == 'M') $scope.curmidfielders--;
-                    if (position == 'F') $scope.curforwards--;
-                    if (position == 'K') $scope.curkeepers--;
+                    if (position == 'D') {
+                        $scope.curdefenders--;
+                        var idx = $scope.sel_d.indexOf(p.id);
+                        $scope.sel_d.splice(idx,1);
+                    }
+                    if (position == 'M') {
+                        $scope.curmidfielders--;
+                        var idx = $scope.sel_m.indexOf(p.id);
+                        $scope.sel_m.splice(idx,1);
+                    }
+                    if (position == 'F') {
+                        $scope.curforwards--;
+                        var idx = $scope.sel_f.indexOf(p.id);
+                        $scope.sel_f.splice(idx,1);
+                    }
+                    if (position == 'K') {
+                        $scope.curkeepers--;
+                        var idx = $scope.sel_k.indexOf(p.id);
+                        $scope.sel_k.splice(idx,1);
+                    }
                 }
             }
+        }
+
+        var num = $scope.curdefenders + $scope.curmidfielders + $scope.curforwards + $scope.curkeepers;
+        if (num == 11) {
+            var continueButton = document.getElementById("continue");
+            continueButton.setAttribute("class", "btn btn-success btn-lg");
+        }
+        else  {
+            var continueButton = document.getElementById("continue");
+            continueButton.setAttribute("class", "btn btn-success btn-lg disabled");
         }
     };
 
@@ -143,6 +183,35 @@ angular.module('myApp.controllers', [])
         return playericon;
     };
 
+    $scope.addContinueButton = function() {
+        // <form  method="post" action="../action_page.php">
+        //     <input type="hidden" name="money" value={{curr_money}}>
+        //     <input type="hidden" name="gkp" value={{sel_k}}>
+        //     <input type="hidden" name="def" value={{sel_d}}>
+        //     <input type="hidden" name="mid" value={{sel_m}}>
+        //     <input type="hidden" name="for" value={{sel_f}}>
+        //     <input type="submit" value="Submit" >
+        // </form>
+        var divForButton = document.createElement("div");
+        divForButton.style.position = "absolute";
+        divForButton.style.top = "25%";
+        divForButton.style.right = "5%";
+
+
+        var continueButton = document.createElement("button");
+        continueButton.id = "continue";
+        continueButton.setAttribute("class","btn btn-success btn-lg disabled");
+        continueButton.innerHTML = "Continue";
+        continueButton.style.paddingLeft = "25%";
+        continueButton.style.paddingRight = "25%";
+        continueButton.onclick = function() {
+            var form = document.getElementById("submitform");
+            form.submit();
+        }
+        document.body.appendChild(divForButton);
+        divForButton.appendChild(continueButton);
+    }
+
     $scope.myscript = function(formation) {
         var ndef,nmid,nfor;
         ndef = formation / 100; ndef = Math.floor(ndef);
@@ -161,20 +230,7 @@ angular.module('myApp.controllers', [])
         document.getElementById("init-heading").style.marginBottom = "2%";
         document.getElementById("selection").remove();
 
-        var continueButton = document.createElement("button");
-        continueButton.id = "continue";
-        continueButton.type = "button";
-        continueButton.style.position = "absolute";
-        continueButton.style.top = "5%";
-        continueButton.style.right = "5%";
-        continueButton.setAttribute("class","btn btn-success btn-lg");
-        continueButton.innerHTML = "Continue";
-        continueButton.style.paddingLeft = "5%";
-        continueButton.style.paddingRight = "5%";
-        continueButton.onclick = function() {
-            // send the chosen array to the next page
-        }
-        document.body.appendChild(continueButton);
+        $scope.addContinueButton();
 
         document.body.style.backgroundColor = "rgb(100,155,0)";
         document.body.style.backgroundRepeat = "no-repeat";
