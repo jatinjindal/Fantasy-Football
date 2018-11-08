@@ -183,16 +183,6 @@
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
 <body>
 
-<form  id="submitform" method="post" action="../action_page.php">
-    <input type="hidden" name="money" value={{curr_money}}>
-    <input type="hidden" name="gkp" value={{sel_k}}>
-    <input type="hidden" name="def" value={{sel_d}}>
-    <input type="hidden" name="mid" value={{sel_m}}>
-    <input type="hidden" name="for" value={{sel_f}}>
-    <!-- <input type="submit" value="Submit" > -->
-</form>
-
-
 <h2 id="init-heading" class="tophead"> Choose a Formation </h2>
 
 <!-- Simulate a smartphone / tablet -->
@@ -274,8 +264,7 @@
                 <tbody bgcolor = rgb(0,0,255)>
                     <tr bgcolor = rgb(0,0,255) ng-repeat="p in players | filter:searchFilter | orderBy:sort.orders">
                     <td bgcolor = rgb(0,0,255)>
-                    <!-- <input type="checkbox" id="{{ p.id }}" ng-click="chooseplayer(p.first_name,p.second_name,p.posn,p.id,p.now_cost/10)" ng-model="p.pinned" title='pin {{ p.id }}'> -->
-                    <input type="checkbox" id="{{ p.id }}" ng-click="chooseplayer(p)" ng-model="p.pinned" title='pin {{ p.id }}'>
+                    <input type="checkbox" id="{{ p.id }}" ng-click="chooseplayer(p.first_name,p.second_name,p.posn,p.id,p.now_cost/10)" ng-model="p.pinned" title='pin {{ p.id }}'>
                     </td>
                     <td bgcolor = rgb(0,0,255)>
                     <span title="{{ p.first_name }} {{ p.second_name }}">{{ p.web_name }}</span>
