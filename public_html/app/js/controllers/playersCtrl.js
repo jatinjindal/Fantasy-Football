@@ -20,7 +20,6 @@ angular.module('myApp.controllers', [])
         var position = p.posn;
         var id = p.id;
         var cost = p.now_cost/10;
-        alert(pfirstname);
         if (document.getElementById(id).checked) {
             $scope.Jatinvar = pfirstname + ' ' + plastname;
             if(position == "D") {
@@ -110,6 +109,16 @@ angular.module('myApp.controllers', [])
                 }
             }
         }
+
+        var num = $scope.curdefenders + $scope.curmidfielders + $scope.curforwards + $scope.curkeepers;
+        if (num == 11) {
+            var continueButton = document.getElementById("continue");
+            continueButton.setAttribute("class", "btn btn-success btn-lg");
+        }
+        else  {
+            var continueButton = document.getElementById("continue");
+            continueButton.setAttribute("class", "btn btn-success btn-lg disabled");
+        }
     };
 
     $scope.selectplayer = function(){
@@ -191,7 +200,7 @@ angular.module('myApp.controllers', [])
 
         var continueButton = document.createElement("button");
         continueButton.id = "continue";
-        continueButton.setAttribute("class","btn btn-success btn-lg");
+        continueButton.setAttribute("class","btn btn-success btn-lg disabled");
         continueButton.innerHTML = "Continue";
         continueButton.style.paddingLeft = "25%";
         continueButton.style.paddingRight = "25%";
