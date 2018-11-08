@@ -20,7 +20,6 @@ angular.module('myApp.controllers', [])
         var position = p.posn;
         var id = p.id;
         var cost = p.now_cost/10;
-        alert(pfirstname);
         if (document.getElementById(id).checked) {
             $scope.Jatinvar = pfirstname + ' ' + plastname;
             if(position == "D") {
