@@ -7,12 +7,8 @@
 <div class="col-md-12 column">
 <div class="row clearfix">
 <h1> Leaderboard </h1>
-<?php
-// $command = escapeshellcmd('./script.py');
-$output = shell_exec("python ./script.py");
-echo $output;
-echo "hello";
-?>
+
+
 <?php
     include '_database/database.php';
     session_start();
