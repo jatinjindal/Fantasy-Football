@@ -15,9 +15,9 @@
     $current_user = $_SESSION['user_username'];
     // $sql = "SELECT * FROM user WHERE user_username != '$current_user' order by user_id desc";
 
-    $sql = "SELECT * from user ORDER BY money ASC";
+    $sql = "SELECT * from user ORDER BY score DESC";
     $result = mysqli_query($database,$sql) or die(mysqli_error($database));
-    
+
 ?>
 <table class="table table-dark">
   <thead>
@@ -38,8 +38,11 @@
         <tr>
              <td><?php echo $ranking; ?></td>
              <td><?php echo $ranking; ?></td>
-             <td><?php echo $rws['user_username']; ?></td>       
-             <td><?php echo $rws['money']; ?></td>
+             <td><?php echo $rws['user_username']; ?></td>
+             <td><?php
+                if ($rws['score'] != NULL) echo $rws['score'];
+                else echo '-';
+            ?></td>
            <?php
              $ranking = $ranking + 1; /* INCREMENT RANKING BY 1 */
            ?>
@@ -48,7 +51,7 @@
         echo "<h4>$i. $user</h4>";
         $i = $i + 1;
  -->
-<?php    
+<?php
     }
 
 
@@ -60,5 +63,3 @@
 </div>
 </div>
 </div>
-
-
