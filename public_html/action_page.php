@@ -27,6 +27,7 @@
     $mid = $_POST["mid"];
     $forw = $_POST["for"];
     $gkp = $_POST["gkp"];
+    $zero = '0';
 
     $sql = "UPDATE user SET money='$money_left' WHERE user_username = '$current_user'";
     $result = mysqli_query($database,$sql) or die(mysqli_error($database));
@@ -41,6 +42,9 @@
     $result = mysqli_query($database,$sql) or die(mysqli_error($database));
 
     $sql = "UPDATE user SET gkp='$gkp' WHERE user_username = '$current_user'";
+    $result = mysqli_query($database,$sql) or die(mysqli_error($database));
+
+    $sql = "UPDATE user SET score='$zero' WHERE user_username = '$current_user'";
     $result = mysqli_query($database,$sql) or die(mysqli_error($database));
 
     // echo "<h2>Your forwards are: $forw.</h2>";
