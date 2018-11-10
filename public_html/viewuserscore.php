@@ -31,6 +31,7 @@ while($rws = mysqli_fetch_array($result)){
     }
     else {
         echo "<h2>Something happened. Your team has got even more pts!</h2>";
+        // echo $output;
         $team_home = "Manchester United";
         $team_away = "Manchester City";
 
