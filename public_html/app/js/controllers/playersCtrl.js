@@ -228,13 +228,15 @@ angular.module('myApp.controllers', [])
         document.getElementById("playerList").style.display = "block";
         document.getElementById("init-heading").innerHTML = "Choose Your Team";
         document.getElementById("init-heading").style.marginBottom = "2%";
+        document.getElementById("init-heading").style.color = "white"; 
+        document.getElementById("sideleft-heading").style.color = "white";
+        document.getElementById("content").style.color = "white";
         document.getElementById("selection").remove();
 
         $scope.addContinueButton();
-
-        document.body.style.backgroundColor = "rgb(100,155,0)";
+        document.body.style.backgroundImage = "url('football-ground.jpg')";
         document.body.style.backgroundRepeat = "no-repeat";
-        document.body.style.backgroundSize = "cover";
+        document.body.style.backgroundSize = "100% 100%";
 
         var currTeam = document.createElement("div");
         currTeam.id = "curr";

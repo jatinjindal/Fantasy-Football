@@ -1,5 +1,5 @@
 /* app css stylesheet */
-body { padding:10px; font-size:12px; }
+body { overflow:hidden; padding:10px; font-size:12px; }
 
 .menu {
   list-style: none;
