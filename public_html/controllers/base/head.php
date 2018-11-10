@@ -6,8 +6,4 @@
     <?php include 'controllers/base/css.php' ?>
 
     <?php include 'controllers/base/font.php' ?>
-    <style>
-    body {
-    	background-image: url("./1.jpg");
-    }
-    </style>
+    
